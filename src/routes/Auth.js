@@ -43,8 +43,7 @@ const Auth = () => {
     } else if (name === "github") {
       provider = new firebaseInstance.auth.GithubAuthProvider();
     }
-    const data = await authService.signInWithPopup(provider);
-    console.log(data);
+    await authService.signInWithPopup(provider);
   };
 
   return (
@@ -53,7 +52,7 @@ const Auth = () => {
         <input
           name="email"
           type="email"
-          placeholder="Email"
+          placeholder="이메일 주소를 입력하세요"
           required
           value={email}
           onChange={onChange}
@@ -61,26 +60,26 @@ const Auth = () => {
         <input
           name="password"
           type="password"
-          placeholder="Password"
+          placeholder="비밀번호를 입력하세요"
           required
           value={password}
           onChange={onChange}
         />
         <input
           type="submit"
-          value={newAccount ? "Create New Account" : "Login"}
+          value={newAccount ? "계정 생성하기" : "기존 계정으로 로그인"}
         />
-        {error}
+        {error && <span>{error}</span>}
       </form>
       <span onClick={toggleAccount}>
-        {newAccount ? "Login" : "Create Account"}
+        {newAccount ? "기존 계정으로 로그인 하시겠습니까?" : "계정을 생성하시겠습니까?"}
       </span>
       <div>
         <button onClick={onSocialClick} name="google">
-          Continue with Google
+          Google 계정으로 로그인
         </button>
         <button onClick={onSocialClick} name="github">
-          Continue with GitHub
+          Github 계정으로 로그인
         </button>
       </div>
     </div>
