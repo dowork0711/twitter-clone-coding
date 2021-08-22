@@ -38,6 +38,8 @@ form {
 }
 
 .container {
+  margin: 0 auto;
+  margin-top: 25px;
   width: 100%;
   max-width: 320px;
   display: flex;
@@ -181,6 +183,7 @@ form {
 }
 
 .tweet h4 {
+  display: block;
   font-size: 14px;
 }
 
@@ -197,14 +200,17 @@ form {
 .tweet__actions {
   position: absolute;
   right: 10px;
-  top: 10px;
+  left: 10px;
 }
 
 .tweet__actions span {
   cursor: pointer;
+  position: relative;
+  float: right;
 }
 
 .tweet__actions span:first-child {
+  margin-left: 10px;
   margin-right: 10px;
 }
 
@@ -277,6 +283,7 @@ form {
 }
 
 /* footer */
-.footer {
+.footer__section {
+  padding: 25px;
   text-align: center;
 }

@@ -8,10 +8,10 @@ const TweetFactory = ({ userObj }) => {
   const [tweet, setTweet] = useState("");
   const [attachment, setAttachment] = useState("");
   const onSubmit = async (e) => {
+    e.preventDefault();
     if (tweet === "") {
       return;
     }
-    e.preventDefault();
     let attachmentUrl = "";
     if (attachment !== "") {
       const attachmentRef = storageService
@@ -54,42 +54,48 @@ const TweetFactory = ({ userObj }) => {
     setAttachment("");
   };
   return (
-    <form onSubmit={onSubmit} className="factoryForm">
-      <div className="factoryInput__container">
-        <input
-          value={tweet}
-          onChange={onChange}
-          type="text"
-          placeholder="당신의 소중한 순간을 기록하세요."
-          minLength={5}
-          maxLength={120}
-          className="factoryInput__input"
-        />
-        <input type="submit" value="&rarr;" className="factoryInput__arrow" />
-      </div>
-      <label for="attach-file" className="factoryInput__label">
-        <span>사진 추가하기</span>
-        <FontAwesomeIcon icon={faPlus} />
-      </label>
-      <input
-        id="attach-file"
-        tyle="file"
-        accpet="image/*"
-        onChange={onFlieChange}
-        style={{
-          opacity: 0
-        }}
-      />
-      {attachment && (
-        <div className="factoryForm__attachment">
-          <img src={attachment} style={{backgroundImage: attachment}} alt="upload_image" />
-          <div className="factoryForm__clear" onClick={onClearAttachment}>
-            <span>삭제</span>
-            <FontAwesomeIcon icon={faTimes} />
-          </div>
+    <>
+      <form onSubmit={onSubmit} className="factoryForm">
+        <div className="factoryInput__container">
+          <input
+            value={tweet}
+            onChange={onChange}
+            type="text"
+            placeholder="당신의 소중한 순간을 기록하세요."
+            minLength={5}
+            maxLength={120}
+            className="factoryInput__input"
+          />
+          <input type="submit" value="&rarr;" className="factoryInput__arrow" />
         </div>
-      )}
-    </form>
+        <label htmlFor="attach-file" className="factoryInput__label">
+          <span>사진 추가하기</span>
+          <FontAwesomeIcon icon={faPlus} />
+        </label>
+        <input
+          id="attach-file"
+          type="file"
+          accpet="image/*"
+          onChange={onFlieChange}
+          style={{
+            opacity: 0,
+          }}
+        />
+        {attachment && (
+          <div className="factoryForm__attachment">
+            <img
+              src={attachment}
+              style={{ backgroundImage: attachment }}
+              alt="upload_image"
+            />
+            <div className="factoryForm__clear" onClick={onClearAttachment}>
+              <span>삭제</span>
+              <FontAwesomeIcon icon={faTimes} />
+            </div>
+          </div>
+        )}
+      </form>
+    </>
   );
 };
 

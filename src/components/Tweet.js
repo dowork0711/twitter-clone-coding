@@ -7,7 +7,7 @@ const Tweet = ({ tweetObj, isOwner }) => {
   const [edit, setEdit] = useState(false);
   const [newTweet, setNewTweet] = useState(tweetObj.text);
   const onDeleteClick = async () => {
-    const okay = window.confirm("이 트윗을 삭제하시겠습니까? (삭제를 완료하면 복구할 수 없습니다.)");
+    const okay = window.confirm("이 트윗을 삭제하시겠습니까");
     if (okay) {
       await dbService.doc(`tweets/${tweetObj.id}`).delete();
       await storageService.refFromURL(tweetObj.attachmentUrl).delete();
@@ -49,7 +49,7 @@ const Tweet = ({ tweetObj, isOwner }) => {
           <h4>{tweetObj.text}</h4>
           {tweetObj.attachmentUrl && <img src={tweetObj.attachmentUrl} alt="upload" />}
           {isOwner && (
-            <div className="tweet__action">
+            <div className="tweet__actions">
               <span onClick={onDeleteClick}>
                 <FontAwesomeIcon icon={faTrash} />
               </span>

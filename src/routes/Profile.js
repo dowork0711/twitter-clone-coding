@@ -5,10 +5,13 @@ import { useHistory } from "react-router";
 
 const Profile = ({ refreshUser, userObj }) => {
   const history = useHistory();
-  const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
-  const onLogOutClick = () => {
-    authService.signOut();
-    history.push("/");
+  const [newDisplayName, setNewDisplayName] = useState(userObj.setNewDisplayName);
+  const onLogOutClick = async () => {
+    const okay = window.confirm("로그아웃 하시겠습니까?");
+    if (okay) {
+      await authService.signOut();
+      history.push("/");
+    };
   };
   // const getMyTweet = async () => {
   //   const tweets = await dbService
