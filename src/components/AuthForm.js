@@ -35,9 +35,10 @@ const AuthForm = () => {
   };
 
   const toggleAccount = () => setNewAccount((prev) => !prev);
+
   return (
     <>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="container">
         <input
           name="email"
           type="email"
@@ -45,6 +46,7 @@ const AuthForm = () => {
           required
           value={email}
           onChange={onChange}
+          className="authInput"
         />
         <input
           name="password"
@@ -53,13 +55,15 @@ const AuthForm = () => {
           required
           value={password}
           onChange={onChange}
+          className="authInput"
         />
         <input
           type="submit"
           value={newAccount ? "계정 생성하기" : "기존 계정으로 로그인"}
+          className="authInput authSubmit"
         />
-        {error && <span>{error}</span>}
-        <span onClick={toggleAccount}>
+        {error && <span className="authError">{error}</span>}
+        <span onClick={toggleAccount} className="authSwitch">
           {newAccount ? "기존 계정으로 로그인 하시겠습니까?" : "계정을 생성하시겠습니까?"}
         </span>
       </form> 

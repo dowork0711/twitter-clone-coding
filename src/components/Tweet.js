@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { dbService, storageService } from "fbInstance";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Tweet = ({ tweetObj, isOwner }) => {
   const [edit, setEdit] = useState(false);
@@ -26,10 +28,10 @@ const Tweet = ({ tweetObj, isOwner }) => {
     setNewTweet(value);
   };
   return (
-    <div>
+    <div className="tweet">
       {edit ? (
         <>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} className="container tweetEdit">
             <input
               type="text"
               placeholder="트윗을 편집하세요"
@@ -38,19 +40,23 @@ const Tweet = ({ tweetObj, isOwner }) => {
               required
               autoFocus
             />
-            <input type="submit" value="업데이트 하기" />
+            <input type="submit" value="업데이트 하기" className="formBtn" />
           </form>
-          <button onClick={toggleEdit}>닫기</button>
+          <button onClick={toggleEdit} className="formBtn cancelBtn">닫기</button>
         </>
       ) : (
         <>
           <h4>{tweetObj.text}</h4>
-          {tweetObj.attachmentUrl && <img src={tweetObj.attachmentUrl} width="50px" heigh="50px" alt="upload" />}
+          {tweetObj.attachmentUrl && <img src={tweetObj.attachmentUrl} alt="upload" />}
           {isOwner && (
-            <>
-              <button onClick={onDeleteClick}>이 트윗 삭제</button>
-              <button onClick={toggleEdit}>이 트윗 편집</button>
-            </>
+            <div className="tweet__action">
+              <span onClick={onDeleteClick}>
+                <FontAwesomeIcon icon={faTrash} />
+              </span>
+              <span onClick={toggleEdit}>
+                <FontAwesomeIcon icon={faPencilAlt} />
+              </span>
+            </div>
           )}
         </>
       )}

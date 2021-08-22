@@ -1,24 +1,31 @@
-import React, { useState } from 'react';
-import { dbService, storageService } from 'fbInstance';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState } from "react";
+import { dbService, storageService } from "fbInstance";
+import { v4 as uuidv4 } from "uuid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const TweetFactory = ({ userObj }) => {
   const [tweet, setTweet] = useState("");
   const [attachment, setAttachment] = useState("");
   const onSubmit = async (e) => {
+    if (tweet === "") {
+      return;
+    }
     e.preventDefault();
     let attachmentUrl = "";
     if (attachment !== "") {
-      const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+      const attachmentRef = storageService
+        .ref()
+        .child(`${userObj.uid}/${uuidv4()}`);
       const response = await attachmentRef.putString(attachment, "data_url");
-      attachmentUrl = await response.ref.getDownloadURL(); 
+      attachmentUrl = await response.ref.getDownloadURL();
     }
     const tweetObj = {
       text: tweet,
       createdAt: Date.now(),
       creatorId: userObj.uid,
       attachmentUrl,
-    }
+    };
     await dbService.collection("tweets").add(tweetObj);
     setTweet("");
     setAttachment("");
@@ -44,33 +51,46 @@ const TweetFactory = ({ userObj }) => {
     reader.readAsDataURL(theFile);
   };
   const onClearAttachment = () => {
-    setAttachment(null);
-  }
+    setAttachment("");
+  };
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="factoryForm">
+      <div className="factoryInput__container">
         <input
           value={tweet}
           onChange={onChange}
           type="text"
-          placeholder="What's on your mind?"
+          placeholder="당신의 소중한 순간을 기록하세요."
           minLength={5}
           maxLength={120}
+          className="factoryInput__input"
         />
-        <input type="file" accept="image/*" onChange={onFlieChange} />
-        <input type="submit" value="Tweet" />
-        {attachment && (
-          <div>
-            <img
-              src={attachment}
-              width="50px"
-              height="50px"
-              alt="upload_image"
-            />
-            <button onClick={onClearAttachment}>Clear</button>
+        <input type="submit" value="&rarr;" className="factoryInput__arrow" />
+      </div>
+      <label for="attach-file" className="factoryInput__label">
+        <span>사진 추가하기</span>
+        <FontAwesomeIcon icon={faPlus} />
+      </label>
+      <input
+        id="attach-file"
+        tyle="file"
+        accpet="image/*"
+        onChange={onFlieChange}
+        style={{
+          opacity: 0
+        }}
+      />
+      {attachment && (
+        <div className="factoryForm__attachment">
+          <img src={attachment} style={{backgroundImage: attachment}} alt="upload_image" />
+          <div className="factoryForm__clear" onClick={onClearAttachment}>
+            <span>삭제</span>
+            <FontAwesomeIcon icon={faTimes} />
           </div>
-        )}
-      </form>
-  )
-}
+        </div>
+      )}
+    </form>
+  );
+};
 
 export default TweetFactory;
